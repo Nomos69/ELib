@@ -1,0 +1,93 @@
+package com.elib.library;
+
+import android.os.Bundle;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class AdminFinesActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private UserFineAdapter adapter;
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
+    private final List<UserFine> userFines = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_admin_fines);
+        recyclerView = findViewById(R.id.recycler_admin_fines);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new UserFineAdapter(userFines);
+        recyclerView.setAdapter(adapter);
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        loadUserFines();
+    }
+
+    private void loadUserFines() {
+        db.collection("books")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    Map<String, Double> totals = new HashMap<>();
+                    for (QueryDocumentSnapshot d : snapshot) {
+                        Book b = d.toObject(Book.class);
+                        String uid = b.getLastBorrowerId();
+                        Double f = b.getFine();
+                        if (uid != null && f != null && f > 0) {
+                            totals.put(uid, totals.getOrDefault(uid, 0.0) + f);
+                        }
+                    }
+                    if (totals.isEmpty()) {
+                        userFines.clear();
+                        adapter.notifyDataSetChanged();
+                        return;
+                    }
+                    db.collection("users").get()
+                            .addOnSuccessListener(usersSnap -> {
+                                Map<String, Map<String, Object>> users = new HashMap<>();
+                                for (QueryDocumentSnapshot u : usersSnap) {
+                                    users.put(u.getId(), u.getData());
+                                }
+                                userFines.clear();
+                                for (Map.Entry<String, Double> e : totals.entrySet()) {
+                                    String uid = e.getKey();
+                                    Double total = e.getValue();
+                                    Map<String, Object> info = users.get(uid);
+                                    String name = info != null ? (String) info.get("username") : "Unknown";
+                                    String email = info != null ? (String) info.get("email") : "";
+                                    userFines.add(new UserFine(uid, name, email, total));
+                                }
+                                userFines.sort((a, b) -> Double.compare(b.totalFine, a.totalFine));
+                                adapter.notifyDataSetChanged();
+                            })
+                            .addOnFailureListener(err -> {
+                                Toast.makeText(this, "Error loading users: " + err.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error loading fines: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+}
+
+class UserFine {
+    final String uid;
+    final String name;
+    final String email;
+    final Double totalFine;
+    UserFine(String uid, String name, String email, Double totalFine) {
+        this.uid = uid;
+        this.name = name;
+        this.email = email;
+        this.totalFine = totalFine != null ? totalFine : 0.0;
+    }
+}

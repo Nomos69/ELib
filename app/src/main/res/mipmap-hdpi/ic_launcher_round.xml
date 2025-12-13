@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Background circle -->
+    <path
+        android:fillColor="#2196F3"
+        android:pathData="M24,0C10.75,0 0,10.75 0,24s10.75,24 24,24s24,-10.75 24,-24S37.25,0 24,0z"/>
+    <!-- Book cover -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,5h20c1.1,0 2,0.9 2,2v24c0,1.1 -0.9,2 -2,2H10c-1.1,0 -2,-0.9 -2,-2V7c0,-1.1 0.9,-2 2,-2z"/>
+    <!-- Book pages -->
+    <path
+        android:fillColor="#E3F2FD"
+        android:pathData="M12,7v24h18V7H12z"/>
+    <!-- Book binding -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M10,5v28h2V5H10z"/>
+    <!-- Lines on book -->
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M14,11h14v1H14z"/>
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M14,14h12v1H14z"/>
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M14,17h14v1H14z"/>
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M14,20h10v1H14z"/>
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M14,23h14v1H14z"/>
+</vector>
+

@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">ELib - Library Management</string>
+    <string name="add_book">Add Book</string>
+    <string name="book_title">Book Title</string>
+    <string name="author">Author</string>
+    <string name="isbn">ISBN</string>
+    <string name="year">Year</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="library_books">Library Books</string>
+    <string name="no_books">No books in library</string>
+    <string name="search_hint">Search books...</string>
+    <string name="available">Available</string>
+    <string name="issue">Issue to User</string>
+    <string name="return_book">Mark Return</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="my_fines">My Fines</string>
+    <string name="total_fines">Total Fines</string>
+    <string name="books">Books</string>
+    <string name="account">Account</string>
+    <string name="assign_borrower">Assign Borrower</string>
+    <string name="borrower_email">Borrower email</string>
+    <string name="only_admin_issue_return">Only admin can issue/return books</string>
+    <string name="logout">Logout</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="tagline">Manage your library efficiently</string>
+    <string name="login_tab">Login</string>
+    <string name="register_tab">Register</string>
+    <string name="description">Description</string>
+</resources>
+

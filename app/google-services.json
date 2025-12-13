@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "334311875638",
+    "project_id": "elib-71d24",
+    "storage_bucket": "elib-71d24.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334311875638:android:3c420f9fb36b5166832497",
+        "android_client_info": {
+          "package_name": "com.elib.library"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzaOnZCGWxzv4n7jydj4arBbNjA9gWNlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

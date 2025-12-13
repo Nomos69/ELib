@@ -14,6 +14,13 @@ public class SplashActivity extends AppCompatActivity {
             android.view.animation.Animation fadeIn = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.fade_in);
             icon.startAnimation(fadeIn);
         }
+        android.view.View overlay = findViewById(R.id.splash_overlay);
+        if (overlay != null) {
+            android.view.animation.AlphaAnimation overlayAnim = new android.view.animation.AlphaAnimation(0f, 0.35f);
+            overlayAnim.setDuration(700);
+            overlayAnim.setFillAfter(true);
+            overlay.startAnimation(overlayAnim);
+        }
         android.os.Handler handler = new android.os.Handler();
         handler.postDelayed(() -> {
             FirebaseAuth auth = FirebaseAuth.getInstance();

@@ -26,29 +26,21 @@ public class FineAdapter extends RecyclerView.Adapter<FineAdapter.FineViewHolder
     public void onBindViewHolder(@NonNull FineViewHolder holder, int position) {
         Book b = books.get(position);
         holder.title.setText(b.getTitle());
-        holder.amount.setText("Rs. " + (b.getFine() != null ? b.getFine() : 0.0));
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd, yyyy");
-        Long ret = b.getReturnDate();
-        Long due = b.getDueDate();
-        if (ret != null) {
-            String text = "Returned: " + sdf.format(new java.util.Date(ret));
-            if (due != null) {
-                text += " • Due: " + sdf.format(new java.util.Date(due));
-            }
-            holder.date.setText(text);
-            holder.date.setVisibility(View.VISIBLE);
+        double fine = b.getFine() != null ? b.getFine() : 0.0;
+        holder.amount.setText("Rs. " + String.format("%.2f", fine));
+        
+        long now = System.currentTimeMillis();
+        long due = b.getDueDate() != null ? b.getDueDate() : now;
+        long diff = now - due;
+        long days = diff / (24 * 60 * 60 * 1000);
+        
+        if (days > 0) {
+            holder.daysOverdue.setText(days + " days overdue");
         } else {
-            holder.date.setText("");
-            holder.date.setVisibility(View.GONE);
+            holder.daysOverdue.setText("Overdue");
         }
-        Long issue = b.getIssueDate();
-        if (issue != null) {
-            holder.borrowed.setText("Borrowed: " + sdf.format(new java.util.Date(issue)));
-            holder.borrowed.setVisibility(View.VISIBLE);
-        } else {
-            holder.borrowed.setText("");
-            holder.borrowed.setVisibility(View.GONE);
-        }
+        
+        holder.rate.setText("Fine rate: Rs. 10.0/day");
     }
 
     @Override
@@ -59,14 +51,15 @@ public class FineAdapter extends RecyclerView.Adapter<FineAdapter.FineViewHolder
     static class FineViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView amount;
-        TextView date;
-        TextView borrowed;
+        TextView daysOverdue;
+        TextView rate;
+        
         FineViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.text_fine_title);
-            amount = itemView.findViewById(R.id.text_fine_amount);
-            date = itemView.findViewById(R.id.text_fine_date);
-            borrowed = itemView.findViewById(R.id.text_fine_borrowed);
+            amount = itemView.findViewById(R.id.chip_amount);
+            daysOverdue = itemView.findViewById(R.id.text_days_overdue);
+            rate = itemView.findViewById(R.id.text_fine_rate);
         }
     }
 }

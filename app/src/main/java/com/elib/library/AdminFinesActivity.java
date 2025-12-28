@@ -3,6 +3,7 @@ package com.elib.library;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,29 @@ public class AdminFinesActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setSelectedItemId(R.id.nav_fines);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_fines) {
+                return true;
+            } else if (id == R.id.nav_catalog) {
+                startActivity(new android.content.Intent(this, MainActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_borrow) {
+                startActivity(new android.content.Intent(this, BorrowActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new android.content.Intent(this, AccountActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return true;
+        });
+
         loadUserFines();
     }
 

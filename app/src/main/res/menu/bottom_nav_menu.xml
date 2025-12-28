@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_books"
-        android:title="@string/books"
+        android:id="@+id/nav_catalog"
+        android:title="@string/nav_catalog"
         android:icon="@drawable/ic_books" />
     <item
-        android:id="@+id/nav_users"
-        android:title="Users"
-        android:icon="@drawable/ic_users" />
-    <item
-        android:id="@+id/nav_notifications"
-        android:title="Alerts"
-        android:icon="@drawable/ic_bell" />
+        android:id="@+id/nav_borrow"
+        android:title="@string/nav_borrow"
+        android:icon="@drawable/ic_nav_borrow" />
     <item
         android:id="@+id/nav_fines"
-        android:title="@string/my_fines"
+        android:title="@string/nav_fines"
         android:icon="@drawable/ic_fines" />
     <item
-        android:id="@+id/nav_account"
-        android:title="@string/account"
+        android:id="@+id/nav_profile"
+        android:title="@string/nav_profile"
         android:icon="@drawable/ic_account" />
 </menu>

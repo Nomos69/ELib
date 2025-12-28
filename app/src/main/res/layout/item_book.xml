@@ -4,133 +4,123 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:strokeColor="@color/accent"
-    app:strokeWidth="1dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/card_bg"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_title"
+        <!-- Book Cover -->
+        <ImageView
+            android:id="@+id/image_cover"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Book Title"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
-        <TextView
-            android:id="@+id/text_available_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Available: 0"
-            android:textSize="14sp"
-            android:layout_marginTop="2dp"
-            android:textColor="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/text_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Author: "
-            android:textSize="14sp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/text_isbn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ISBN: "
-            android:textSize="14sp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/darker_gray" />
-
-
-        <TextView
-            android:id="@+id/text_year"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Year: "
-            android:textSize="14sp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/text_fine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fine: Rs. 0"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp"
-            android:textColor="@android:color/holo_red_dark" />
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_book_cover" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp"
-            android:weightSum="4">
+            android:orientation="vertical"
+            android:padding="12dp">
 
-            <Button
-                android:id="@+id/btn_edit"
-                android:layout_width="0dp"
+            <!-- Title -->
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/edit"
-                android:lines="1"
-                android:maxLines="1"
-                android:minWidth="0dp"
-                android:textSize="14sp"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:text="Book Title"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:ellipsize="end"
+                android:maxLines="2" />
 
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="0dp"
+            <!-- Author -->
+            <TextView
+                android:id="@+id/text_author"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/delete"
-                android:lines="1"
-                android:maxLines="1"
-                android:minWidth="0dp"
-                android:textSize="14sp"
-                android:textColor="@color/accent"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:text="Author Name"
+                android:textSize="12sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginTop="4dp" />
 
-            <Button
-                android:id="@+id/btn_issue"
-                android:layout_width="0dp"
+            <!-- Hidden fields kept for Adapter compatibility -->
+            <TextView
+                android:id="@+id/text_isbn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/issue"
-                android:lines="1"
-                android:maxLines="1"
-                android:minWidth="0dp"
-                android:textSize="14sp"
-                android:layout_marginStart="8dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/text_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/text_available_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/text_fine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
-            <Button
-                android:id="@+id/btn_return"
-                android:layout_width="0dp"
+            <!-- Admin Actions (Hidden by default, Adapter controls visibility) -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/return_book"
-                android:lines="1"
-                android:maxLines="1"
-                android:minWidth="0dp"
-                android:textSize="14sp"
-                android:layout_marginStart="8dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/btn_edit"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_edit"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/text_hint"
+                    android:padding="8dp"
+                    android:contentDescription="@string/edit"/>
+
+                <ImageButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_delete"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@android:color/holo_red_light"
+                    android:padding="8dp"
+                    android:contentDescription="@string/delete"/>
+
+                <ImageButton
+                    android:id="@+id/btn_issue"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_issue_book"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/text_hint"
+                    android:padding="8dp"
+                    android:contentDescription="@string/issue"/>
+
+                <ImageButton
+                    android:id="@+id/btn_return"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_return_book"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/text_hint"
+                    android:padding="8dp"
+                    android:contentDescription="@string/return_book"/>
+            </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>
-

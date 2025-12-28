@@ -1,10 +1,15 @@
 package com.elib.library;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -15,94 +20,121 @@ public class FinesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FineAdapter adapter;
     private TextView totalText;
+    private EditText inputDays, inputRate;
+    private Button btnCalculate;
     private final List<Book> finedBooks = new ArrayList<>();
     private FirebaseFirestore db;
     private FirebaseAuth auth;
+    private double totalOutstanding = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fines);
+
+        // Initialize Views
         recyclerView = findViewById(R.id.recycler_fines);
-        totalText = findViewById(R.id.text_total_fines);
+        totalText = findViewById(R.id.text_total_outstanding);
+        inputDays = findViewById(R.id.input_calc_days);
+        inputRate = findViewById(R.id.input_calc_rate);
+        btnCalculate = findViewById(R.id.btn_calculate);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+
+        // Setup RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new FineAdapter(finedBooks);
         recyclerView.setAdapter(adapter);
+
+        // Firebase
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+
+        // Setup Navigation
+        bottomNav.setSelectedItemId(R.id.nav_fines);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_fines) {
+                return true;
+            } else if (id == R.id.nav_catalog) {
+                startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_borrow) {
+                startActivity(new Intent(this, BorrowActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, AccountActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            return true;
+        });
+
+        // Setup Calculator
+        btnCalculate.setOnClickListener(v -> calculateFine());
+
         loadFines();
+    }
+
+    private void calculateFine() {
+        String daysStr = inputDays.getText().toString().trim();
+        String rateStr = inputRate.getText().toString().trim();
+
+        if (daysStr.isEmpty() || rateStr.isEmpty()) {
+            Toast.makeText(this, "Please enter days and rate", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            int days = Integer.parseInt(daysStr);
+            double rate = Double.parseDouble(rateStr);
+            double fine = days * rate;
+            Toast.makeText(this, "Calculated Fine: Rs. " + String.format("%.2f", fine), Toast.LENGTH_LONG).show();
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadFines() {
         if (auth.getCurrentUser() == null) {
-            totalText.setText("Total: Rs. 0");
+            totalText.setText("$0.00");
             return;
         }
         String uid = auth.getCurrentUser().getUid();
-        String email = auth.getCurrentUser().getEmail();
-        db.collection("admins").document(uid).get()
-                .addOnSuccessListener(doc -> {
-                    boolean isAdmin = doc.exists() || "admin@gmail.com".equalsIgnoreCase(email);
-                    if (isAdmin) {
-                        finedBooks.clear();
-                        adapter.notifyDataSetChanged();
-                        totalText.setText("Total: Rs. 0");
-                        return;
+        
+        // Load currently borrowed books that are overdue
+        db.collection("books")
+                .whereEqualTo("borrowerId", uid)
+                .get()
+                .addOnCompleteListener(task -> {
+                    finedBooks.clear();
+                    totalOutstanding = 0.0;
+                    if (task.isSuccessful()) {
+                        long now = System.currentTimeMillis();
+                        for (QueryDocumentSnapshot d : task.getResult()) {
+                            Book b = d.toObject(Book.class);
+                            b.setId(d.getId());
+                            
+                            Long due = b.getDueDate();
+                            if (due != null && now > due) {
+                                // Overdue
+                                long diff = now - due;
+                                long days = diff / (24 * 60 * 60 * 1000);
+                                if (days > 0) {
+                                    // Calculate dynamic fine for display
+                                    double fine = days * 10.0; // Assuming Rs 10 per day as default or fetched from somewhere
+                                    
+                                    b.setFine(fine); // Temporarily set fine for adapter
+                                    finedBooks.add(b);
+                                    totalOutstanding += fine;
+                                }
+                            }
+                        }
                     }
-                    db.collection("books")
-                            .whereEqualTo("lastBorrowerId", uid)
-                            .get()
-                            .addOnCompleteListener(task -> {
-                                finedBooks.clear();
-                                double total = 0.0;
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot d : task.getResult()) {
-                                        Book b = d.toObject(Book.class);
-                                        b.setId(d.getId());
-                                        Double f = b.getFine() != null ? b.getFine() : 0.0;
-                                        if (f > 0) total += f;
-                                        if (b.getReturnDate() != null) finedBooks.add(b);
-                                    }
-                                }
-                                finedBooks.sort((a, b2) -> {
-                                    Long ar = a.getReturnDate();
-                                    Long br = b2.getReturnDate();
-                                    if (ar == null && br == null) return 0;
-                                    if (ar == null) return 1;
-                                    if (br == null) return -1;
-                                    return Long.compare(br, ar);
-                                });
-                                adapter.notifyDataSetChanged();
-                                totalText.setText("Total: Rs. " + total);
-                            });
-                })
-                .addOnFailureListener(e -> {
-                    db.collection("books")
-                            .whereEqualTo("lastBorrowerId", uid)
-                            .get()
-                            .addOnCompleteListener(task -> {
-                                finedBooks.clear();
-                                double total = 0.0;
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot d : task.getResult()) {
-                                        Book b = d.toObject(Book.class);
-                                        b.setId(d.getId());
-                                        Double f = b.getFine() != null ? b.getFine() : 0.0;
-                                        if (f > 0) total += f;
-                                        if (b.getReturnDate() != null) finedBooks.add(b);
-                                    }
-                                }
-                                finedBooks.sort((a, b2) -> {
-                                    Long ar = a.getReturnDate();
-                                    Long br = b2.getReturnDate();
-                                    if (ar == null && br == null) return 0;
-                                    if (ar == null) return 1;
-                                    if (br == null) return -1;
-                                    return Long.compare(br, ar);
-                                });
-                                adapter.notifyDataSetChanged();
-                                totalText.setText("Total: Rs. " + total);
-                            });
+                    
+                    adapter.notifyDataSetChanged();
+                    totalText.setText("Rs. " + String.format("%.2f", totalOutstanding));
                 });
     }
 }

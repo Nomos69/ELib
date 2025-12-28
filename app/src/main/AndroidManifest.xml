@@ -17,6 +17,7 @@
         <activity android:name=".AdminFinesActivity" />
         <activity android:name=".NotificationsActivity" />
         <activity android:name=".AccountActivity" />
+        <activity android:name=".BorrowActivity" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

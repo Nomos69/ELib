@@ -14,7 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 // import androidx.appcompat.widget.Toolbar; // Unused import removed
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.ImageButton;
+import android.widget.Button;
+import androidx.core.content.ContextCompat;
+import android.content.res.ColorStateList;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEditText;
     private FirebaseAuth auth;
     private boolean isAdmin = false;
+    private String currentFilter = "all";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,37 +111,81 @@ public class MainActivity extends AppCompatActivity {
         adapter.setShowAddCard(isAdmin);
 
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setSelectedItemId(R.id.nav_catalog);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_books) {
+            if (id == R.id.nav_catalog) {
                 // already on books
                 return true;
-            } else if (id == R.id.nav_users) {
-                if (isAdmin) {
-                    startActivity(new android.content.Intent(this, AdminFinesActivity.class));
-                } else {
-                    Toast.makeText(this, "Only admin can view users", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            } else if (id == R.id.nav_notifications) {
-                startActivity(new android.content.Intent(this, NotificationsActivity.class));
+            } else if (id == R.id.nav_borrow) {
+                startActivity(new android.content.Intent(this, BorrowActivity.class));
+                overridePendingTransition(0, 0);
                 return true;
             } else if (id == R.id.nav_fines) {
                 if (isAdmin) {
                     startActivity(new android.content.Intent(this, AdminFinesActivity.class));
+                    overridePendingTransition(0, 0);
                 } else {
                     startActivity(new android.content.Intent(this, FinesActivity.class));
+                    overridePendingTransition(0, 0);
                 }
                 return true;
-            } else if (id == R.id.nav_account) {
+            } else if (id == R.id.nav_profile) {
                 startActivity(new android.content.Intent(this, AccountActivity.class));
+                overridePendingTransition(0, 0);
                 return true;
             }
             return true;
         });
 
         updateAdminStatus();
+        setupFilters();
         loadBooks();
+    }
+
+    private void setupFilters() {
+        ImageButton btnGrid = findViewById(R.id.btn_view_grid);
+        ImageButton btnList = findViewById(R.id.btn_view_list);
+        Button btnAll = findViewById(R.id.filter_all);
+        Button btnAvailable = findViewById(R.id.filter_available);
+        Button btnCheckedOut = findViewById(R.id.filter_checked_out);
+
+        int colorActive = ContextCompat.getColor(this, R.color.button_active);
+        int colorInactive = ContextCompat.getColor(this, R.color.button_inactive);
+
+        // View Toggle
+        btnGrid.setOnClickListener(v -> {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            btnGrid.setBackgroundTintList(ColorStateList.valueOf(colorActive));
+            btnList.setBackgroundTintList(ColorStateList.valueOf(colorInactive));
+        });
+
+        btnList.setOnClickListener(v -> {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            btnList.setBackgroundTintList(ColorStateList.valueOf(colorActive));
+            btnGrid.setBackgroundTintList(ColorStateList.valueOf(colorInactive));
+        });
+
+        // Status Filters
+        View.OnClickListener filterListener = v -> {
+            btnAll.setBackgroundTintList(ColorStateList.valueOf(colorInactive));
+            btnAvailable.setBackgroundTintList(ColorStateList.valueOf(colorInactive));
+            btnCheckedOut.setBackgroundTintList(ColorStateList.valueOf(colorInactive));
+            v.setBackgroundTintList(ColorStateList.valueOf(colorActive));
+
+            if (v.getId() == R.id.filter_all) currentFilter = "all";
+            else if (v.getId() == R.id.filter_available) currentFilter = "available";
+            else if (v.getId() == R.id.filter_checked_out) currentFilter = "checked_out";
+            
+            filterBooks(searchEditText.getText().toString());
+        };
+
+        btnAll.setOnClickListener(filterListener);
+        btnAvailable.setOnClickListener(filterListener);
+        btnCheckedOut.setOnClickListener(filterListener);
+
+        // Category buttons (Visual only for now)
+        // You can add listeners here if needed
     }
 
     private void showAdminOptions(Book book) {
@@ -311,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editIsbn = view.findViewById(R.id.edit_isbn);
         EditText editYear = view.findViewById(R.id.edit_year);
         EditText editDescription = view.findViewById(R.id.edit_description);
+        EditText editPdfUrl = view.findViewById(R.id.edit_pdf_url);
         View layoutDescription = view.findViewById(R.id.layout_description);
         android.widget.CheckBox checkAvailable = view.findViewById(R.id.check_available);
 
@@ -320,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
             editIsbn.setText(book.getIsbn());
             editYear.setText(String.valueOf(book.getYear()));
             editDescription.setText(book.getDescription() != null ? book.getDescription() : "");
+            editPdfUrl.setText(book.getPdfUrl() != null ? book.getPdfUrl() : "");
             checkAvailable.setChecked(book.isAvailable());
         } else {
             checkAvailable.setChecked(true);
@@ -337,6 +389,7 @@ public class MainActivity extends AppCompatActivity {
             String yearStr = editYear.getText().toString().trim();
             boolean available = checkAvailable.isChecked();
             String description = editDescription.getText().toString().trim();
+            String pdfUrl = editPdfUrl.getText().toString().trim();
 
             if (title.isEmpty() || author.isEmpty() || isbn.isEmpty() || yearStr.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
@@ -346,9 +399,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 int year = Integer.parseInt(yearStr);
                 if (book == null) {
-                    addBook(title, author, isbn, year, available, description);
+                    addBook(title, author, isbn, year, available, description, pdfUrl);
                 } else {
-                    updateBook(book.getId(), title, author, isbn, year, available, description);
+                    updateBook(book.getId(), title, author, isbn, year, available, description, pdfUrl);
                 }
                 dialog.dismiss();
             } catch (NumberFormatException e) {
@@ -379,33 +432,21 @@ public class MainActivity extends AppCompatActivity {
                     adapter.setShowAddCard(isAdmin);
                     com.google.android.material.bottomnavigation.BottomNavigationView bar = findViewById(R.id.bottom_nav);
                     if (bar != null) {
-                        android.view.Menu menu = bar.getMenu();
-                        android.view.MenuItem users = menu.findItem(R.id.nav_users);
-                        android.view.MenuItem bell = menu.findItem(R.id.nav_notifications);
-                        android.view.MenuItem fines = menu.findItem(R.id.nav_fines);
-                        if (users != null) users.setVisible(isAdmin);
-                        if (bell != null) bell.setVisible(isAdmin);
-                        if (fines != null) fines.setVisible(!isAdmin);
+                        // Menu items are static now: Catalog, Borrow, Fines, Profile
+                        // We can optionally hide/show items based on admin status if needed,
+                        // but the user requested a specific 4-tab layout.
+                        // For now, we'll keep all 4 visible and handle logic in OnItemSelectedListener.
                     }
                 })
                 .addOnFailureListener(e -> {
                     isAdmin = false;
                     adapter.setAdmin(false);
                     adapter.setShowAddCard(false);
-                    com.google.android.material.bottomnavigation.BottomNavigationView bar = findViewById(R.id.bottom_nav);
-                    if (bar != null) {
-                        android.view.Menu menu = bar.getMenu();
-                        android.view.MenuItem users = menu.findItem(R.id.nav_users);
-                        android.view.MenuItem bell = menu.findItem(R.id.nav_notifications);
-                        android.view.MenuItem fines = menu.findItem(R.id.nav_fines);
-                        if (users != null) users.setVisible(false);
-                        if (bell != null) bell.setVisible(false);
-                        if (fines != null) fines.setVisible(true);
-                    }
+                    // No menu changes needed on failure
                 });
     }
 
-    private void addBook(String title, String author, String isbn, int year, boolean available, String description) {
+    private void addBook(String title, String author, String isbn, int year, boolean available, String description, String pdfUrl) {
         Map<String, Object> bookData = new HashMap<>();
         bookData.put("title", title);
         bookData.put("author", author);
@@ -413,6 +454,7 @@ public class MainActivity extends AppCompatActivity {
         bookData.put("year", year);
         bookData.put("available", available);
         if (isAdmin && !description.isEmpty()) bookData.put("description", description);
+        if (!pdfUrl.isEmpty()) bookData.put("pdfUrl", pdfUrl);
 
         db.collection("books")
                 .add(bookData)
@@ -425,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateBook(String id, String title, String author, String isbn, int year, boolean available, String description) {
+    private void updateBook(String id, String title, String author, String isbn, int year, boolean available, String description, String pdfUrl) {
         Map<String, Object> bookData = new HashMap<>();
         bookData.put("title", title);
         bookData.put("author", author);
@@ -435,6 +477,7 @@ public class MainActivity extends AppCompatActivity {
         if (isAdmin) {
             bookData.put("description", description);
         }
+        bookData.put("pdfUrl", pdfUrl);
 
         db.collection("books")
                 .document(id)

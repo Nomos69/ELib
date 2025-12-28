@@ -15,6 +15,7 @@ public class Book {
     private Long dueDate; // timestamp in millis
     private String borrowerEmail;
     private String description;
+    private String pdfUrl;
 
     public Book() {
         // Default constructor required for Firestore
@@ -30,25 +31,34 @@ public class Book {
         this.available = available;
         this.fine = 0.0;
     }
-        public Long getIssueDate() {
-            return issueDate;
-        }
 
-        public void setIssueDate(Long issueDate) {
-            this.issueDate = issueDate;
-        }
+    public String getPdfUrl() {
+        return pdfUrl;
+    }
 
-        public Long getReturnDate() {
-            return returnDate;
-        }
+    public void setPdfUrl(String pdfUrl) {
+        this.pdfUrl = pdfUrl;
+    }
 
-        public void setReturnDate(Long returnDate) {
-            this.returnDate = returnDate;
-        }
+    public Long getIssueDate() {
+        return issueDate;
+    }
 
-        public Double getFine() {
-            return fine;
-        }
+    public void setIssueDate(Long issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public Long getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Long returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public Double getFine() {
+        return fine;
+    }
 
     public void setFine(Double fine) {
         this.fine = fine;
@@ -131,4 +141,3 @@ public class Book {
         this.year = year;
     }
 }
-

@@ -11,8 +11,15 @@
     <string name="delete">Delete</string>
     <string name="library_books">Library Books</string>
     <string name="no_books">No books in library</string>
-    <string name="search_hint">Search books...</string>
+    <string name="search_hint">Search by title, author, or ISBN...</string>
     <string name="available">Available</string>
+    <string name="checked_out">Checked-out</string>
+    <string name="all">All</string>
+    <string name="cat_science">Science</string>
+    <string name="cat_fiction">Fiction</string>
+    <string name="cat_technology">Technology</string>
+    <string name="cat_philosophy">Philosophy</string>
+    <string name="cat_history">History</string>
     <string name="issue">Issue to User</string>
     <string name="return_book">Mark Return</string>
     <string name="email">Email</string>
@@ -32,6 +39,10 @@
     <string name="tagline">Manage your library efficiently</string>
     <string name="login_tab">Login</string>
     <string name="register_tab">Register</string>
+    <string name="nav_catalog">Catalog</string>
+    <string name="nav_borrow">Borrow</string>
+    <string name="nav_fines">Fines</string>
+    <string name="nav_profile">Profile</string>
     <string name="description">Description</string>
 </resources>
 

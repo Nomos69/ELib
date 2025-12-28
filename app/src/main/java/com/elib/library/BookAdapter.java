@@ -58,7 +58,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Book book = books.get(dataPos);
         BookViewHolder h = (BookViewHolder) holder;
         h.titleText.setText(book.getTitle());
-        h.authorText.setText("Author: " + book.getAuthor());
+        h.authorText.setText("by " + book.getAuthor());
         h.isbnText.setText("ISBN: " + book.getIsbn());
         h.yearText.setText("Year: " + book.getYear());
 
@@ -76,9 +76,6 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (countText != null) {
             countText.setText("Available: " + count);
         }
-        h.authorText.setVisibility(View.VISIBLE);
-        h.isbnText.setVisibility(View.VISIBLE);
-        h.yearText.setVisibility(View.VISIBLE);
 
         h.itemView.findViewById(R.id.btn_edit).setOnClickListener(v -> {
             if (listener != null) {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_dark"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -18,35 +19,155 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/rounded_panel"
-        android:padding="16dp">
+        android:layout_marginBottom="8dp">
 
-        <TextView
+        <EditText
+            android:id="@+id/edit_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/library_books"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary_dark"
-            android:gravity="center"
-            android:layout_marginBottom="8dp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_search_input"
             android:hint="@string/search_hint"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:textColorHint="@color/text_hint"
+            android:textColor="@android:color/white"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:drawableTint="@color/text_hint"
+            android:drawablePadding="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_search"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="16dp">
+
+                <ImageButton
+                    android:id="@+id/btn_view_grid"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_view_grid"
+                    android:background="@drawable/bg_filter_button"
+                    android:backgroundTint="@color/button_active"
+                    android:padding="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <ImageButton
+                    android:id="@+id/btn_view_list"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_view_list"
+                    android:background="@drawable/bg_filter_button"
+                    android:padding="8dp"/>
+            </LinearLayout>
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:drawableLeft="@android:drawable/ic_menu_search"
-                android:drawableStart="@android:drawable/ic_menu_search"
-                android:paddingLeft="8dp" />
+                android:scrollbars="none">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="@string/all"
+                        android:background="@drawable/bg_filter_button"
+                        android:backgroundTint="@color/button_active"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false"
+                        android:layout_marginEnd="8dp"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="@string/available"
+                        android:background="@drawable/bg_filter_button"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false"
+                        android:layout_marginEnd="8dp"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/filter_checked_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="@string/checked_out"
+                        android:background="@drawable/bg_filter_button"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="@string/cat_science"
+                    android:background="@drawable/bg_filter_button"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:layout_marginEnd="8dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="@string/cat_fiction"
+                    android:background="@drawable/bg_filter_button"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:layout_marginEnd="8dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="@string/cat_technology"
+                    android:background="@drawable/bg_filter_button"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:layout_marginEnd="8dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="@string/cat_philosophy"
+                    android:background="@drawable/bg_filter_button"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:layout_marginEnd="8dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="@string/cat_history"
+                    android:background="@drawable/bg_filter_button"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+
     </LinearLayout>
 
     
@@ -67,9 +188,12 @@
         android:layout_gravity="bottom"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/primary_dark"
-        app:itemTextColor="@color/primary_dark"
-        android:background="@android:color/white" />
+        app:itemIconTint="@color/selector_nav_item_color"
+        app:itemTextColor="@color/selector_nav_item_color"
+        app:itemIconSize="24dp"
+        app:itemPaddingTop="8dp"
+        app:itemPaddingBottom="8dp"
+        android:background="@color/bg_dark" />
 
     <!-- Add Book action is provided as a RecyclerView card item -->
 

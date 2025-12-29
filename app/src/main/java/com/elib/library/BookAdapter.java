@@ -8,6 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import com.bumptech.glide.Glide;
+
 public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Book> books;
     private final OnBookClickListener listener;
@@ -23,7 +28,10 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void onDetailsClick(Book book);
         void onAdminOptions(Book book);
         void onAddClick();
+        void onReadClick(Book book);
+        void onDownloadClick(Book book);
     }
+
 
     private static final int TYPE_ADD = 0;
     private static final int TYPE_BOOK = 1;
@@ -62,14 +70,43 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         h.isbnText.setText("ISBN: " + book.getIsbn());
         h.yearText.setText("Year: " + book.getYear());
 
+        // Load Cover Image
+        if (book.getCoverUrl() != null && !book.getCoverUrl().isEmpty()) {
+            Glide.with(h.itemView.getContext())
+                    .load(book.getCoverUrl())
+                    .placeholder(R.drawable.placeholder_book_cover)
+                    .error(R.drawable.placeholder_book_cover)
+                    .centerCrop()
+                    .into(h.coverImage);
+        } else {
+            h.coverImage.setImageResource(R.drawable.placeholder_book_cover);
+        }
+
         View issueBtn = h.itemView.findViewById(R.id.btn_issue);
         View returnBtn = h.itemView.findViewById(R.id.btn_return);
         View editBtn = h.itemView.findViewById(R.id.btn_edit);
         View deleteBtn = h.itemView.findViewById(R.id.btn_delete);
-        issueBtn.setVisibility(isAdmin && book.isAvailable() ? View.VISIBLE : View.GONE);
-        returnBtn.setVisibility(isAdmin && !book.isAvailable() ? View.VISIBLE : View.GONE);
+        Button readBtn = h.itemView.findViewById(R.id.btn_read);
+        ImageButton downloadBtn = h.itemView.findViewById(R.id.btn_download);
+
+        // Visibility Logic
+        if (issueBtn != null) issueBtn.setVisibility(isAdmin && book.isAvailable() ? View.VISIBLE : View.GONE);
+        if (returnBtn != null) returnBtn.setVisibility(isAdmin && !book.isAvailable() ? View.VISIBLE : View.GONE);
         editBtn.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
         deleteBtn.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+
+        // Read/Download Buttons
+        boolean hasPdf = book.getPdfUrl() != null && !book.getPdfUrl().isEmpty();
+        readBtn.setVisibility(hasPdf ? View.VISIBLE : View.GONE);
+        downloadBtn.setVisibility(hasPdf ? View.VISIBLE : View.GONE);
+
+        readBtn.setOnClickListener(v -> {
+            if (listener != null) listener.onReadClick(book);
+        });
+
+        downloadBtn.setOnClickListener(v -> {
+            if (listener != null) listener.onDownloadClick(book);
+        });
 
         Integer count = availabilityByTitle.getOrDefault(book.getTitle(), 0);
         TextView countText = h.itemView.findViewById(R.id.text_available_count);
@@ -104,7 +141,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView fineText = h.itemView.findViewById(R.id.text_fine);
         double fine = book.getFine() != null ? book.getFine() : 0.0;
         if (fine > 0) {
-            fineText.setText("Fine: Rs. " + fine);
+            fineText.setText("Fine: ₱ " + fine);
             fineText.setVisibility(View.VISIBLE);
         } else {
             fineText.setText("");
@@ -145,6 +182,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class BookViewHolder extends RecyclerView.ViewHolder {
         TextView titleText, authorText, isbnText, yearText, fineText;
+        ImageView coverImage;
 
         BookViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -153,6 +191,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             isbnText = itemView.findViewById(R.id.text_isbn);
             yearText = itemView.findViewById(R.id.text_year);
             fineText = itemView.findViewById(R.id.text_fine);
+            coverImage = itemView.findViewById(R.id.image_cover);
         }
     }
     static class AddViewHolder extends RecyclerView.ViewHolder {

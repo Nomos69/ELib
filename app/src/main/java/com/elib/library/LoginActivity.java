@@ -119,12 +119,12 @@ public class LoginActivity extends AppCompatActivity {
                                     java.util.Map<String, Object> admin = new java.util.HashMap<>();
                                     admin.put("createdAt", System.currentTimeMillis());
                                     db.collection("admins").document(uid).set(admin);
-                                    Toast.makeText(this, "Admin account created", Toast.LENGTH_SHORT).show();
+                                    ToastHelper.showSuccess(this, "Admin account created");
                                     finish();
                                 })
-                                .addOnFailureListener(err -> Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                .addOnFailureListener(err -> ToastHelper.showError(this, "Login failed: " + e.getMessage()));
                     } else {
-                        Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        ToastHelper.showError(this, "Login failed: " + e.getMessage());
                     }
                 });
     }
@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                     db.collection("users").document(uid).set(user);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Registration failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    ToastHelper.showError(this, "Registration failed: " + e.getMessage());
                 });
     }
 }

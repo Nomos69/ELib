@@ -16,6 +16,7 @@ public class Book {
     private String borrowerEmail;
     private String description;
     private String pdfUrl;
+    private String coverUrl;
 
     public Book() {
         // Default constructor required for Firestore
@@ -38,6 +39,14 @@ public class Book {
 
     public void setPdfUrl(String pdfUrl) {
         this.pdfUrl = pdfUrl;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 
     public Long getIssueDate() {

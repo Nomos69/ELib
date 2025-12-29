@@ -77,12 +77,20 @@ public class FinesActivity extends AppCompatActivity {
         loadFines();
     }
 
+    private void showResultDialog(String title, String message) {
+        new android.app.AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
     private void calculateFine() {
         String daysStr = inputDays.getText().toString().trim();
         String rateStr = inputRate.getText().toString().trim();
 
         if (daysStr.isEmpty() || rateStr.isEmpty()) {
-            Toast.makeText(this, "Please enter days and rate", Toast.LENGTH_SHORT).show();
+            ToastHelper.showError(this, "Please enter days and rate");
             return;
         }
 
@@ -90,9 +98,9 @@ public class FinesActivity extends AppCompatActivity {
             int days = Integer.parseInt(daysStr);
             double rate = Double.parseDouble(rateStr);
             double fine = days * rate;
-            Toast.makeText(this, "Calculated Fine: Rs. " + String.format("%.2f", fine), Toast.LENGTH_LONG).show();
+            showResultDialog("Calculation Result", "Calculated Fine: ₱ " + String.format("%.2f", fine));
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
+            ToastHelper.showError(this, "Invalid input");
         }
     }
 
@@ -123,7 +131,7 @@ public class FinesActivity extends AppCompatActivity {
                                 long days = diff / (24 * 60 * 60 * 1000);
                                 if (days > 0) {
                                     // Calculate dynamic fine for display
-                                    double fine = days * 10.0; // Assuming Rs 10 per day as default or fetched from somewhere
+                                    double fine = days * 10.0; // Assuming ₱ 10 per day as default or fetched from somewhere
                                     
                                     b.setFine(fine); // Temporarily set fine for adapter
                                     finedBooks.add(b);
@@ -134,7 +142,7 @@ public class FinesActivity extends AppCompatActivity {
                     }
                     
                     adapter.notifyDataSetChanged();
-                    totalText.setText("Rs. " + String.format("%.2f", totalOutstanding));
+                    totalText.setText("₱ " + String.format("%.2f", totalOutstanding));
                 });
     }
 }

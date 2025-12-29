@@ -67,6 +67,7 @@
                     android:layout_marginBottom="12dp"/>
 
                 <TextView
+                    android:id="@+id/text_role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Premium Member"
@@ -310,132 +311,8 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Achievements -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Achievements"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp"/>
+            <!-- Achievements Removed -->
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!-- Achievement 1 -->
-                    <LinearLayout
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_card_dark"
-                        android:padding="16dp"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginEnd="12dp">
-                        
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_nav_borrow"
-                            app:tint="@color/cyan_accent"
-                            android:layout_marginBottom="8dp"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bookworm"
-                            android:textColor="@android:color/white"
-                            android:textStyle="bold"
-                            android:textSize="14sp"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Read 100+ books"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="10sp"
-                            android:gravity="center"
-                            android:layout_marginTop="4dp"/>
-                    </LinearLayout>
-
-                    <!-- Achievement 2 -->
-                    <LinearLayout
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_card_dark"
-                        android:padding="16dp"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginEnd="12dp">
-                        
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_books"
-                            app:tint="@color/cyan_accent"
-                            android:layout_marginBottom="8dp"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Early Bird"
-                            android:textColor="@android:color/white"
-                            android:textStyle="bold"
-                            android:textSize="14sp"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Always return on time"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="10sp"
-                            android:gravity="center"
-                            android:layout_marginTop="4dp"/>
-                    </LinearLayout>
-                     <!-- Achievement 3 -->
-                    <LinearLayout
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_card_dark"
-                        android:padding="16dp"
-                        android:orientation="vertical"
-                        android:gravity="center">
-                        
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_view_grid"
-                            app:tint="@color/cyan_accent"
-                            android:layout_marginBottom="8dp"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Explorer"
-                            android:textColor="@android:color/white"
-                            android:textStyle="bold"
-                            android:textSize="14sp"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Read 10+ categories"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="10sp"
-                            android:gravity="center"
-                            android:layout_marginTop="4dp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-            </HorizontalScrollView>
 
             <Button
                 android:id="@+id/btn_logout"

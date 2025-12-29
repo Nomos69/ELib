@@ -27,7 +27,7 @@ public class FineAdapter extends RecyclerView.Adapter<FineAdapter.FineViewHolder
         Book b = books.get(position);
         holder.title.setText(b.getTitle());
         double fine = b.getFine() != null ? b.getFine() : 0.0;
-        holder.amount.setText("Rs. " + String.format("%.2f", fine));
+        holder.amount.setText("₱ " + String.format("%.2f", fine));
         
         long now = System.currentTimeMillis();
         long due = b.getDueDate() != null ? b.getDueDate() : now;
@@ -40,7 +40,7 @@ public class FineAdapter extends RecyclerView.Adapter<FineAdapter.FineViewHolder
             holder.daysOverdue.setText("Overdue");
         }
         
-        holder.rate.setText("Fine rate: Rs. 10.0/day");
+        holder.rate.setText("Fine rate: ₱ 10.0/day");
     }
 
     @Override

@@ -60,7 +60,7 @@
             android:id="@+id/text_fine_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fine rate: Rs. 10/day"
+            android:text="Fine rate: ₱ 10/day"
             android:textColor="@color/text_hint"
             android:textSize="14sp"
             android:layout_marginTop="12dp"

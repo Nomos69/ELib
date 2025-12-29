@@ -18,6 +18,7 @@ public class AccountActivity extends AppCompatActivity {
     private TextView bioText;
     private TextView memberSinceText;
     private TextView usernameHeaderText;
+    private TextView roleText;
     private TextView initialText;
     private TextView statBorrowed;
     private TextView statReading;
@@ -38,6 +39,7 @@ public class AccountActivity extends AppCompatActivity {
             bioText = findViewById(R.id.text_bio);
             memberSinceText = findViewById(R.id.text_member_since);
             usernameHeaderText = findViewById(R.id.text_username_header);
+            roleText = findViewById(R.id.text_role);
             initialText = findViewById(R.id.text_initial);
             statBorrowed = findViewById(R.id.stat_borrowed);
             statReading = findViewById(R.id.stat_reading);
@@ -74,6 +76,17 @@ public class AccountActivity extends AppCompatActivity {
             db = FirebaseFirestore.getInstance();
             if (auth.getCurrentUser() != null) {
                 if (emailText != null) emailText.setText(auth.getCurrentUser().getEmail());
+                
+                // Set Role based on email
+                String email = auth.getCurrentUser().getEmail();
+                if ( roleText != null) {
+                    if ("admin@gmail.com".equalsIgnoreCase(email)) {
+                        roleText.setText("Admin");
+                    } else {
+                        roleText.setText("User");
+                    }
+                }
+
                 String uid = auth.getCurrentUser().getUid();
                 db.collection("users").document(uid).get()
                         .addOnSuccessListener(this::applyUserDoc)
@@ -95,7 +108,7 @@ public class AccountActivity extends AppCompatActivity {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            android.widget.Toast.makeText(this, "Error initializing Account: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+            ToastHelper.showError(this, "Error initializing Account: " + e.getMessage());
             // Optional: navigate back safely if critical failure
         }
     }

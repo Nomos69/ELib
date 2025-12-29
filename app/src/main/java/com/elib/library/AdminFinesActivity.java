@@ -94,11 +94,11 @@ public class AdminFinesActivity extends AppCompatActivity {
                                 adapter.notifyDataSetChanged();
                             })
                             .addOnFailureListener(err -> {
-                                Toast.makeText(this, "Error loading users: " + err.getMessage(), Toast.LENGTH_SHORT).show();
+                                ToastHelper.showError(this, "Error loading users: " + err.getMessage());
                             });
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error loading fines: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    ToastHelper.showError(this, "Error loading fines: " + e.getMessage());
                 });
     }
 }

@@ -1,38 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="24dp"
     android:background="@color/card_bg">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="PDF URL (Optional)"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginBottom="16dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_pdf_url"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_select_cover"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textUri" />
+            android:text="Select Cover"
+            android:textColor="@color/button_active"
+            app:strokeColor="@color/button_active"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/text_cover_status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="No file selected"
+            android:textColor="@color/white"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btn_select_pdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select PDF"
+            android:textColor="@color/button_active"
+            app:strokeColor="@color/button_active"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        <TextView
+            android:id="@+id/text_pdf_status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="No file selected"
+            android:textColor="@color/white"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/book_title"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/button_active"
+        android:textColorHint="@color/text_hint"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -42,12 +89,16 @@
         android:layout_height="wrap_content"
         android:hint="@string/author"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/button_active"
+        android:textColorHint="@color/text_hint"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -57,12 +108,16 @@
         android:layout_height="wrap_content"
         android:hint="@string/isbn"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/button_active"
+        android:textColorHint="@color/text_hint"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_isbn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -73,31 +128,45 @@
         android:layout_height="wrap_content"
         android:hint="@string/description"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:hintTextColor="@color/white"
+        app:boxStrokeColor="@color/button_active"
+        android:textColorHint="@color/text_hint"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/year"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginBottom="8dp">
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_year"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/year"
+            android:textColor="@color/text_hint"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spinner_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+            android:minHeight="48dp"
+            android:background="@drawable/abc_popup_background_mtrl_mult"
+            android:backgroundTint="@color/card_bg_lighter"
+            android:popupBackground="@color/card_bg"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
 
     <CheckBox
         android:id="@+id/check_available"
@@ -105,6 +174,8 @@
         android:layout_height="wrap_content"
         android:text="@string/available"
         android:checked="true"
+        android:textColor="@color/white"
+        android:buttonTint="@color/button_active"
         android:layout_marginBottom="16dp" />
 
     <LinearLayout
@@ -118,6 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
+            android:textColor="@color/button_active"
             android:layout_marginEnd="8dp"
             style="@style/Widget.MaterialComponents.Button.TextButton" />
 
@@ -126,9 +198,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/button_active"
             style="@style/Widget.MaterialComponents.Button" />
 
     </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
 

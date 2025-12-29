@@ -24,7 +24,7 @@ public class UserFineAdapter extends RecyclerView.Adapter<UserFineAdapter.UserFi
         UserFine uf = items.get(position);
         holder.name.setText(uf.name != null ? uf.name : "Unknown");
         holder.email.setText(uf.email != null ? uf.email : "");
-        holder.total.setText("Total: Rs. " + String.format(java.util.Locale.getDefault(), "%.2f", uf.totalFine));
+        holder.total.setText("Total: ₱ " + String.format(java.util.Locale.getDefault(), "%.2f", uf.totalFine));
     }
     @Override
     public int getItemCount() {

@@ -38,7 +38,7 @@
             android:id="@+id/text_user_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total: Rs. 0"
+            android:text="Total: ₱ 0"
             android:textStyle="bold"
             android:textSize="15sp"
             android:textColor="@color/white"

@@ -27,7 +27,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginTop="12dp"
-            android:textColor="@color/primary_dark" />
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:gravity="center"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@color/text_hint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,6 +46,7 @@
             android:background="@drawable/rounded_panel"
             android:padding="12dp">
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_tab_login"
                 style="@style/Widget.MaterialComponents.Button"
@@ -53,7 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/login_tab"
-                android:background="@drawable/rounded_button" />
+                android:background="@drawable/rounded_button"
+                android:textColor="@color/white" />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_tab_register"
@@ -62,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/register_tab"
-                android:layout_marginStart="12dp" />
+                android:layout_marginStart="12dp"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -82,7 +86,7 @@
                 app:startIconDrawable="@android:drawable/ic_dialog_email"
                 app:boxBackgroundColor="@color/accent"
                 app:boxStrokeColor="@color/button_active"
-                app:hintTextColor="@color/button_active"
+                app:hintTextColor="@color/text_hint"
                 android:textColorHint="@color/text_hint"
                 android:layout_marginBottom="12dp">
 
@@ -103,7 +107,7 @@
                 app:startIconDrawable="@android:drawable/ic_lock_lock"
                 app:boxBackgroundColor="@color/accent"
                 app:boxStrokeColor="@color/button_active"
-                app:hintTextColor="@color/button_active"
+                app:hintTextColor="@color/text_hint"
                 android:textColorHint="@color/text_hint"
                 android:layout_marginBottom="8dp">
 
@@ -157,7 +161,7 @@
                 app:startIconDrawable="@android:drawable/ic_menu_myplaces"
                 app:boxBackgroundColor="@color/accent"
                 app:boxStrokeColor="@color/button_active"
-                app:hintTextColor="@color/button_active"
+                app:hintTextColor="@color/text_hint"
                 android:textColorHint="@color/text_hint"
                 android:layout_marginBottom="12dp">
 
@@ -177,7 +181,7 @@
                 app:startIconDrawable="@android:drawable/ic_dialog_email"
                 app:boxBackgroundColor="@color/accent"
                 app:boxStrokeColor="@color/button_active"
-                app:hintTextColor="@color/button_active"
+                app:hintTextColor="@color/text_hint"
                 android:textColorHint="@color/text_hint"
                 android:layout_marginBottom="12dp">
 
@@ -198,7 +202,7 @@
                 app:startIconDrawable="@android:drawable/ic_lock_lock"
                 app:boxBackgroundColor="@color/accent"
                 app:boxStrokeColor="@color/button_active"
-                app:hintTextColor="@color/button_active"
+                app:hintTextColor="@color/text_hint"
                 android:textColorHint="@color/text_hint"
                 android:layout_marginBottom="12dp">
 

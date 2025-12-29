@@ -101,10 +101,10 @@
                         android:layout_marginEnd="8dp"/>
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/filter_checked_out"
+                        android:id="@+id/filter_unavailable"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:text="@string/checked_out"
+                        android:text="Unavailable"
                         android:background="@drawable/bg_filter_button"
                         android:textColor="@android:color/white"
                         android:textAllCaps="false"/>
@@ -112,61 +112,7 @@
             </HorizontalScrollView>
         </LinearLayout>
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="@string/cat_science"
-                    android:background="@drawable/bg_filter_button"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false"
-                    android:layout_marginEnd="8dp"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="@string/cat_fiction"
-                    android:background="@drawable/bg_filter_button"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false"
-                    android:layout_marginEnd="8dp"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="@string/cat_technology"
-                    android:background="@drawable/bg_filter_button"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false"
-                    android:layout_marginEnd="8dp"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="@string/cat_philosophy"
-                    android:background="@drawable/bg_filter_button"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false"
-                    android:layout_marginEnd="8dp"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="@string/cat_history"
-                    android:background="@drawable/bg_filter_button"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false"/>
-            </LinearLayout>
-        </HorizontalScrollView>
 
     </LinearLayout>
 
@@ -178,6 +124,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="16dp"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false"
         android:background="@android:color/transparent" />
     </LinearLayout>
 

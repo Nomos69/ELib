@@ -7,6 +7,7 @@
     android:padding="24dp"
     android:background="@color/card_bg">
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +19,9 @@
             android:id="@+id/edit_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/text_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -33,7 +36,9 @@
             android:id="@+id/edit_bio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:textColor="@color/white"
+            android:textColorHint="@color/text_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,20 +48,23 @@
         android:orientation="horizontal"
         android:gravity="end">
 
+
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:layout_marginEnd="8dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
-            style="@style/Widget.MaterialComponents.Button" />
+            style="@style/Widget.MaterialComponents.Button"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

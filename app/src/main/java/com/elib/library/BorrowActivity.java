@@ -310,6 +310,28 @@ public class BorrowActivity extends AppCompatActivity {
                         borrowedBooks.add(book);
                     }
                     adapter.notifyDataSetChanged();
+                    
+                    // Show empty state if no borrowed books
+                    if (borrowedBooks.isEmpty()) {
+                        showEmptyState();
+                    } else {
+                        hideEmptyState();
+                    }
                 });
+    }
+    
+    private void showEmptyState() {
+        View emptyView = getLayoutInflater().inflate(R.layout.empty_borrowed_books, null);
+        ((ViewGroup) recyclerBorrowed.getParent()).addView(emptyView);
+        recyclerBorrowed.setVisibility(View.GONE);
+    }
+    
+    private void hideEmptyState() {
+        ViewGroup parent = (ViewGroup) recyclerBorrowed.getParent();
+        View emptyView = parent.findViewById(R.id.empty_borrowed_books);
+        if (emptyView != null) {
+            parent.removeView(emptyView);
+        }
+        recyclerBorrowed.setVisibility(View.VISIBLE);
     }
 }

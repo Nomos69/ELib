@@ -2,17 +2,21 @@ package com.elib.library;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +77,11 @@ public class FinesActivity extends AppCompatActivity {
 
         // Setup Calculator
         btnCalculate.setOnClickListener(v -> calculateFine());
+
+        // Show skeleton loading immediately
+        recyclerView.post(() -> {
+            adapter.setLoading(true);
+        });
 
         loadFines();
     }
@@ -143,6 +152,31 @@ public class FinesActivity extends AppCompatActivity {
                     
                     adapter.notifyDataSetChanged();
                     totalText.setText("₱ " + String.format("%.2f", totalOutstanding));
+                    
+                    // Hide skeleton loading
+                    adapter.setLoading(false);
+                    
+                    // Show empty state if no overdue books
+                    if (finedBooks.isEmpty()) {
+                        showEmptyState();
+                    } else {
+                        hideEmptyState();
+                    }
                 });
+    }
+    
+    private void showEmptyState() {
+        View emptyView = getLayoutInflater().inflate(R.layout.empty_fines, null);
+        ((ViewGroup) recyclerView.getParent()).addView(emptyView);
+        recyclerView.setVisibility(View.GONE);
+    }
+    
+    private void hideEmptyState() {
+        ViewGroup parent = (ViewGroup) recyclerView.getParent();
+        View emptyView = parent.findViewById(R.id.empty_fines);
+        if (emptyView != null) {
+            parent.removeView(emptyView);
+        }
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }

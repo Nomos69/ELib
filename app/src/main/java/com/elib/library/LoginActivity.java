@@ -103,6 +103,10 @@ public class LoginActivity extends AppCompatActivity {
                         admin.put("createdAt", System.currentTimeMillis());
                         db.collection("admins").document(uid).set(admin);
                     }
+                    // Explicitly start MainActivity
+                    android.content.Intent intent = new android.content.Intent(this, MainActivity.class);
+                    intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     finish();
                 })
                 .addOnFailureListener(e -> {
@@ -120,6 +124,10 @@ public class LoginActivity extends AppCompatActivity {
                                     admin.put("createdAt", System.currentTimeMillis());
                                     db.collection("admins").document(uid).set(admin);
                                     ToastHelper.showSuccess(this, "Admin account created");
+                                    // Explicitly start MainActivity
+                                    android.content.Intent intent = new android.content.Intent(this, MainActivity.class);
+                                    intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
                                     finish();
                                 })
                                 .addOnFailureListener(err -> ToastHelper.showError(this, "Login failed: " + e.getMessage()));
@@ -152,6 +160,11 @@ public class LoginActivity extends AppCompatActivity {
                     user.put("username", username);
                     user.put("createdAt", System.currentTimeMillis());
                     db.collection("users").document(uid).set(user);
+                    // Explicitly start MainActivity
+                    android.content.Intent intent = new android.content.Intent(this, MainActivity.class);
+                    intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     ToastHelper.showError(this, "Registration failed: " + e.getMessage());

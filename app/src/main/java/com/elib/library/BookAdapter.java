@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Book> books;
@@ -35,10 +36,27 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_ADD = 0;
     private static final int TYPE_BOOK = 1;
+    private static final int TYPE_SKELETON = 2;
+    
+    private boolean isLoading = false;
 
     public BookAdapter(List<Book> books, OnBookClickListener listener) {
         this.books = books;
         this.listener = listener;
+    }
+    
+    public void setLoading(boolean loading) {
+        this.isLoading = loading;
+        notifyDataSetChanged();
+    }
+    
+    public void startShimmerForAllHolders() {
+        // This method can be called to ensure all shimmer animations start
+        notifyDataSetChanged();
+    }
+    
+    public boolean isLoading() {
+        return isLoading;
     }
 
     @NonNull
@@ -48,6 +66,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == TYPE_ADD) {
             View v = inflater.inflate(R.layout.item_add_book, parent, false);
             return new AddViewHolder(v);
+        } else if (viewType == TYPE_SKELETON) {
+            View view = inflater.inflate(R.layout.item_book_shimmer, parent, false);
+            return new SkeletonViewHolder(view);
         } else {
             View view = inflater.inflate(R.layout.item_book, parent, false);
             return new BookViewHolder(view);
@@ -56,6 +77,11 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == TYPE_SKELETON) {
+            // Skeleton items don't need binding
+            return;
+        }
+        
         if (getItemViewType(position) == TYPE_ADD) {
             holder.itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onAddClick();
@@ -160,6 +186,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        if (isLoading) {
+            return 6; // Show 6 skeleton items
+        }
         return books.size() + (showAddCard ? 1 : 0);
     }
 
@@ -199,9 +228,28 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
         }
     }
+    
+    static class SkeletonViewHolder extends RecyclerView.ViewHolder {
+        ShimmerFrameLayout shimmerContainer;
+
+        SkeletonViewHolder(@NonNull View itemView) {
+            super(itemView);
+            shimmerContainer = itemView.findViewById(R.id.shimmer_container);
+            shimmerContainer.startShimmer();
+        }
+        
+        public void stopShimmer() {
+            if (shimmerContainer != null) {
+                shimmerContainer.stopShimmer();
+            }
+        }
+    }
 
     @Override
     public int getItemViewType(int position) {
+        if (isLoading) {
+            return TYPE_SKELETON;
+        }
         if (showAddCard && position == 0) return TYPE_ADD;
         return TYPE_BOOK;
     }

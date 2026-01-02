@@ -24,4 +24,5 @@
     <color name="text_secondary">#8D8E98</color>
     <color name="cyan_accent">#00E5FF</color>
     <color name="purple_accent">#E040FB</color>
+    <color name="shimmer_placeholder">#2C3144</color>
 </resources>
